@@ -5,32 +5,31 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "acts_as_decimal"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "josep.m.bach@gmail.com"
+    gem.summary = "Treat an attribute as a decimal, storing it as an integer in the database."
+    gem.description = "Rails 3 gem to treat an attribute as a decimal (storing and retrieving floating-point values) but storing it as an integer in the database (useful for prices and other money attributes)."
+    gem.email = "info@codegram.com"
     gem.homepage = "http://github.com/codegram/acts_as_decimal"
-    gem.authors = ["Josep Mª Bach"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+    gem.authors = ["Oriol Gual", "Josep Mª Bach", "Josep Jaume Rey"]
+
+    gem.add_dependency 'activerecord', '>= 3.0.0.beta4'
+
+    gem.add_development_dependency "rspec", '>= 2.0.0.beta.12'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
+# Rake RSpec2 task stuff
+gem 'rspec', '>= 2.0.0.beta.12'
+gem 'rspec-expectations'
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
+require 'rspec/core/rake_task'
 
-task :spec => :check_dependencies
+desc "Run the specs under spec"
+RSpec::Core::RakeTask.new do |t|
+
+end
 
 task :default => :spec
 
