@@ -21,6 +21,21 @@ module ActsAsDecimal
           def #{field}
             (self[:#{field}].nil? ? nil : (BigDecimal.new(self[:#{field}].to_s) / BigDecimal('10').power(#{options[:decimals]})).to_f)
           end
+          def humanized_#{field}(options = {:thousand_delimiters => true})
+
+            a = #{field}.to_s.split('.')
+            b = a[1].ljust(2,'0')
+
+            if options[:thousand_delimiters] == false
+              return a[0] + "." + b
+            else
+              groups = a[0].reverse.scan(/\\d{3}/) 
+              rest = a[0].gsub(groups.join.reverse, '').reverse
+              groups << rest unless rest.empty?
+              return groups.join('.').reverse + "," + b
+            end
+
+          end
           def #{field}=(decimalnum)
             self[:#{field}] = (decimalnum.nil? || !decimalnum.is_a?(Numeric) ? nil : (BigDecimal.new(decimalnum.to_s) * BigDecimal('10').power(#{options[:decimals]})).to_i )
           end

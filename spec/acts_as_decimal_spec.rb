@@ -41,6 +41,52 @@ describe Product do
 
   end
 
+  describe "humanized helpers", "when retrieving the humanized value (as a string)" do
+
+    context "with a 3.900.400,00 price" do
+
+      subject { Product.new(:price => 3900400.00) }
+
+      it "has a humanized_price of 3.900.400,00" do
+        subject.humanized_price.should == "3.900.400,00"
+      end
+
+      it "has a humanized_price(:thousand_delimiters => false) of 3900400.00" do
+        subject.humanized_price(:thousand_delimiters => false).should == "3900400.00"
+      end
+
+    end
+
+    context "with a 20.000,00 price" do
+
+      subject { Product.new(:price => 20000.00) }
+
+      it "has a humanized_price of 20.000,00" do
+        subject.humanized_price.should == "20.000,00"
+      end
+
+      it "has a humanized_price(:thousand_delimiters => false) of 20000.00" do
+        subject.humanized_price(:thousand_delimiters => false).should == "20000.00"
+      end
+
+    end
+
+    context "with a 900,00 price" do
+
+      subject { Product.new(:price => 900.00) }
+
+      it "has a humanized_price of 900,00" do
+        subject.humanized_price.should == "900,00"
+      end
+
+      it "has a humanized_price(:thousand_delimiters => false) of 900.00" do
+        subject.humanized_price(:thousand_delimiters => false).should == "900.00"
+      end
+
+    end
+
+  end
+
   context "with a price of 10.30452 and specifying :decimals => 5" do
   
     before(:all) do
