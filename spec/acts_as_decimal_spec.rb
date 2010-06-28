@@ -85,6 +85,19 @@ describe Product do
 
     end
 
+    context "with a string price of '900.00'" do
+
+        subject { Product.new(:price => "900.00") }
+
+        it "has a humanized_price of 900,00" do
+          subject.humanized_price.should == "900,00"
+        end
+
+        it "has a humanized_price(:thousand_delimiters => false) of 900.00" do
+          subject.humanized_price(:thousand_delimiters => false).should == "900.00"
+        end
+
+    end
   end
 
   context "with a price of 10.30452 and specifying :decimals => 5" do

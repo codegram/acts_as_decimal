@@ -37,7 +37,7 @@ module ActsAsDecimal
 
           end
           def #{field}=(decimalnum)
-            self[:#{field}] = (decimalnum.nil? || !decimalnum.is_a?(Numeric) ? nil : (BigDecimal.new(decimalnum.to_s) * BigDecimal('10').power(#{options[:decimals]})).to_i )
+            self[:#{field}] = (decimalnum.nil? ? nil : (BigDecimal.new(decimalnum.to_s) * BigDecimal('10').power(#{options[:decimals]})).to_i )
           end
 
           def #{field}_raw

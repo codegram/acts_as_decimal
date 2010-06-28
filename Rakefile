@@ -11,7 +11,7 @@ begin
     gem.homepage = "http://github.com/codegram/acts_as_decimal"
     gem.authors = ["Oriol Gual", "Josep Mª Bach", "Josep Jaume Rey"]
 
-    gem.add_dependency 'activerecord', '>= 3.0.0.beta4'
+    gem.add_dependency 'activemodel', '>= 3.0.0.beta4'
 
     gem.add_development_dependency "rspec", '>= 2.0.0.beta.12'
   end
