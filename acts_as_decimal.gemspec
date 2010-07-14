@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{acts_as_decimal}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Oriol Gual", "Josep M\302\252 Bach", "Josep Jaume Rey"]
@@ -47,14 +47,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
+      s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0.beta4"])
       s.add_development_dependency(%q<rspec>, [">= 2.0.0.beta.12"])
     else
-      s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
+      s.add_dependency(%q<activemodel>, [">= 3.0.0.beta4"])
       s.add_dependency(%q<rspec>, [">= 2.0.0.beta.12"])
     end
   else
-    s.add_dependency(%q<activerecord>, [">= 3.0.0.beta4"])
+    s.add_dependency(%q<activemodel>, [">= 3.0.0.beta4"])
     s.add_dependency(%q<rspec>, [">= 2.0.0.beta.12"])
   end
 end

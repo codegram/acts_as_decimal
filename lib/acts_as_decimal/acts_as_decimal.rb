@@ -22,6 +22,8 @@ module ActsAsDecimal
             (self[:#{field}].nil? ? nil : (BigDecimal.new(self[:#{field}].to_s) / BigDecimal('10').power(#{options[:decimals]})).to_f)
           end
           def humanized_#{field}(options = {:thousand_delimiters => true})
+            
+            return nil if #{field}.blank?
 
             a = #{field}.to_s.split('.')
             b = a[1].ljust(2,'0')
