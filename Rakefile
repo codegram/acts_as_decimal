@@ -5,15 +5,15 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "acts_as_decimal"
-    gem.summary = "Treat an attribute as a decimal, storing it as an integer in the database."
-    gem.description = "Rails 3 gem to treat an attribute as a decimal (storing and retrieving floating-point values) but storing it as an integer in the database (useful for prices and other money attributes)."
+    gem.summary = "Treat an attribute as if it were a decimal, storing it as an integer in the database."
+    gem.description = "Rails 3 gem to treat an attribute as a decimal (getting and setting floating-point values) but storing it as an integer in the database (useful for prices and other precision-needed attributes like money)."
     gem.email = "info@codegram.com"
     gem.homepage = "http://github.com/codegram/acts_as_decimal"
-    gem.authors = ["Oriol Gual", "Josep Mª Bach", "Josep Jaume Rey"]
+    gem.authors = ["Oriol Gual", "Josep M. Bach", "Josep Jaume Rey"]
 
-    gem.add_dependency 'activemodel', '>= 3.0.0.beta4'
+    gem.add_dependency 'activemodel', '>= 3.0.0.rc'
 
-    gem.add_development_dependency "rspec", '>= 2.0.0.beta.12'
+    gem.add_development_dependency "rspec", '>= 2.0.0.beta.19'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -21,7 +21,7 @@ rescue LoadError
 end
 
 # Rake RSpec2 task stuff
-gem 'rspec', '>= 2.0.0.beta.12'
+gem 'rspec', '>= 2.0.0.beta.19'
 gem 'rspec-expectations'
 
 require 'rspec/core/rake_task'
