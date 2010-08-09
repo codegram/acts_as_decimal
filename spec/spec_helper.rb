@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'rubygems'
 require 'active_record'
 
-require 'lib/acts_as_decimal'
+require 'acts_as_decimal'
 require 'rspec'
 require 'rspec/autorun'
 
