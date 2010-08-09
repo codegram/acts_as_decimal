@@ -1,7 +1,7 @@
 # A sample Gemfile
 source :gemcutter
 #
-gem "activemodel", ">=3.0.0.rc"
+gem "activerecord", ">=3.0.0.rc"
 
 group :development do
   

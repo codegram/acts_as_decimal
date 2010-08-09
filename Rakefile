@@ -14,6 +14,7 @@ begin
     gem.add_dependency 'activemodel', '>= 3.0.0.rc'
 
     gem.add_development_dependency "rspec", '>= 2.0.0.beta.19'
+    gem.add_development_dependency 'activerecord', '>= 3.0.0.rc'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

@@ -9,7 +9,7 @@ require 'rspec'
 require 'rspec/autorun'
 
 RAILS_ENV = "test"
-RAILS_VERSION = ENV['RAILS_VERSION'] || '3.0.0.beta4'
+RAILS_VERSION = ENV['RAILS_VERSION'] || '3.0.0.rc'
 
 ActiveRecord::Base.establish_connection(
   :adapter => 'sqlite3',
