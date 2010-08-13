@@ -19,9 +19,10 @@ module ActsAsDecimal
       fields.each do |field|
         class_eval <<-EOC
           def #{field}
-            (self[:#{field}].nil? ? nil : (BigDecimal.new(self[:#{field}].to_s) / BigDecimal('10').power(#{options[:decimals]})).to_f)
+            # DOES NOT WORK PROPERLY WITH VIM (WTF¿?): (self[:#{field}].nil? ? nil : (BigDecimal.new(self[:#{field}].to_s) / BigDecimal('10').power(#{options[:decimals]})).to_f)
+            (self[:#{field}].nil? ? nil : (self[:#{field}] / BigDecimal('10').power(#{options[:decimals]}).to_f))
           end
-          def humanized_#{field}(options = {:thousand_delimiters => true})
+          def human_#{field}(options = {:thousand_delimiters => true})
             
             return nil if #{field}.blank?
 
@@ -34,7 +35,13 @@ module ActsAsDecimal
               groups = a[0].reverse.scan(/\\d{3}/) 
               rest = a[0].gsub(groups.join.reverse, '').reverse
               groups << rest unless rest.empty?
-              return groups.join('.').reverse + "," + b
+              if groups.last == '-'
+                groups.reject!{|x| x == '-'}
+                negative = true
+              end
+              humanized_string = negative ? "-" : ""
+              humanized_string += groups.join('.').reverse + "," + b
+              return humanized_string
             end
 
           end
@@ -55,4 +62,3 @@ module ActsAsDecimal
   end
 
 end
-
