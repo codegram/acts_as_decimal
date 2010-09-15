@@ -1,4 +1,4 @@
-# ActsAsDecimal
+# encoding: utf-8
 module ActsAsDecimal
   require 'bigdecimal'
 
@@ -19,7 +19,6 @@ module ActsAsDecimal
       fields.each do |field|
         class_eval <<-EOC
           def #{field}
-            # DOES NOT WORK PROPERLY WITH VIM (WTF¿?): (self[:#{field}].nil? ? nil : (BigDecimal.new(self[:#{field}].to_s) / BigDecimal('10').power(#{options[:decimals]})).to_f)
             (self[:#{field}].nil? ? nil : (self[:#{field}] / BigDecimal('10').power(#{options[:decimals]}).to_f))
           end
           def human_#{field}(options = {:thousand_delimiters => true})
