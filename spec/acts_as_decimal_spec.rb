@@ -1,14 +1,12 @@
 require 'spec_helper'
 
+class Product < ActiveRecord::Base
+end
 create_table "products" do end
-
 define_model('Product', :name => :string, :price => :integer)
 
-class Product < ActiveRecord::Base
-  acts_as_decimal :price, :decimals => 2
-end
-
 describe Product do
+
 
   context "with a price of 10.30" do
 

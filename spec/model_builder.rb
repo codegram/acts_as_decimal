@@ -1,41 +1,15 @@
 # This is based on Remarkable based on Shoulda model builder for Test::Unit.
 #
 module ModelBuilder
-  def self.included(base)
-    return unless base.name =~ /^Spec/
-
-    base.class_eval do
-      after(:each) do
-        if @defined_constants
-          @defined_constants.each do |class_name| 
-            Object.send(:remove_const, class_name)
-          end
-        end
-
-        if @created_tables
-          @created_tables.each do |table_name|
-            ActiveRecord::Base.connection.execute("DROP TABLE IF EXISTS #{table_name}")
-          end
-        end
-      end
-    end
-
-    base.extend ClassMethods
-  end
 
   def create_table(table_name, &block)
     connection = ActiveRecord::Base.connection
 
-    begin
-      connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      connection.create_table(table_name, &block)
-      @created_tables ||= []
-      @created_tables << table_name
-      connection
-    rescue Exception => e
-      connection.execute("DROP TABLE IF EXISTS #{table_name}")
-      raise e
-    end
+    connection.execute("DROP TABLE IF EXISTS #{table_name}")
+    connection.create_table(table_name, &block)
+    @created_tables ||= []
+    @created_tables << table_name
+    connection
   end
 
   def define_constant(class_name, base, &block)
@@ -73,28 +47,6 @@ module ModelBuilder
 
     self.class.subject { instance } if self.class.respond_to?(:subject)
     instance
-  end
-
-  module ClassMethods
-    # This is a macro to run validations of boolean optionals such as :allow_nil
-    # and :allow_blank. This macro tests all scenarios. The specs must have a
-    # define_and_validate method defined.
-    #
-    def create_optional_boolean_specs(optional, base, options={})
-      base.describe "with #{optional} option" do
-        it { should define_and_validate(options.merge(optional => true)).send(optional)            }
-        it { should define_and_validate(options.merge(optional => false)).send(optional, false)    }
-        it { should_not define_and_validate(options.merge(optional => true)).send(optional, false) }
-        it { should_not define_and_validate(options.merge(optional => false)).send(optional)       }
-      end
-    end
-
-    def create_message_specs(base)
-      base.describe "with message option" do
-        it { should define_and_validate(:message => 'valid_message').message('valid_message') }
-        it { should_not define_and_validate(:message => 'not_valid').message('valid_message') }
-      end
-    end
   end
 
 end
