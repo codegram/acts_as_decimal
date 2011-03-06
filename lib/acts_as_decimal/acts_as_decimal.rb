@@ -18,9 +18,6 @@ module ActsAsDecimal
       fields = [attr_name] unless attr_name.is_a? Array
       fields.each do |field|
         class_eval <<-EOC
-          def #{field}
-            (self[:#{field}].nil? ? nil : (self[:#{field}] / BigDecimal('10').power(#{options[:decimals]}).to_f))
-          end
           def human_#{field}(options = {:thousand_delimiters => true})
             
             return nil if #{field}.blank?
@@ -44,17 +41,23 @@ module ActsAsDecimal
             end
 
           end
-          def #{field}=(decimalnum)
-            self[:#{field}] = (decimalnum.nil? ? nil : (BigDecimal.new(decimalnum.to_s) * BigDecimal('10').power(#{options[:decimals]})).to_i )
-          end
-
-          def #{field}_raw
-            self[:#{field}]
-          end
-          def #{field}_raw=(intnum)
-            self[:#{field}] = intnum
-          end
         EOC
+
+        define_method "#{field}" do
+          (self[:"#{field}"].nil? ? nil : (self[:"#{field}"] / BigDecimal('10').power("#{options[:decimals]}".to_i).to_f))
+        end
+
+        define_method "#{field}=" do |decimalnum|
+          self[:"#{field}"] = (decimalnum.nil? ? nil : (BigDecimal.new(decimalnum.to_s) * BigDecimal('10').power("#{options[:decimals]}".to_i)).to_i )
+        end
+
+        define_method "#{field}_raw" do
+          self[:"#{field}"]
+        end
+
+        define_method "#{field}_raw=" do |intnum|
+          self[:"#{field}"] = intnum
+        end
       end
     end
 
