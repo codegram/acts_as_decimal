@@ -1,45 +1,43 @@
-require 'rubygems'
-require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "acts_as_decimal"
-    gem.summary = "Treat an attribute as if it were a decimal, storing it as an integer in the database."
-    gem.description = "Rails 3 gem to treat an attribute as a decimal (getting and setting floating-point values) but storing it as an integer in the database (useful for prices and other precision-needed attributes like money)."
-    gem.email = "info@codegram.com"
-    gem.homepage = "http://github.com/codegram/acts_as_decimal"
-    gem.authors = ["Oriol Gual", "Josep M. Bach", "Josep Jaume Rey"]
-
-    gem.add_dependency 'activemodel', '>= 3.0.0.rc'
-
-    gem.add_development_dependency "rspec", '>= 2.0.0.beta.19'
-    gem.add_development_dependency 'activerecord', '>= 3.0.0.rc'
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
-
-# Rake RSpec2 task stuff
-gem 'rspec', '>= 2.0.0.beta.19'
-gem 'rspec-expectations'
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
+desc "Run superrtext specs"
+RSpec::Core::RakeTask.new
 
-desc "Run the specs under spec"
-RSpec::Core::RakeTask.new do |t|
-
+require 'yard'
+YARD::Rake::YardocTask.new(:docs) do |t|
+  t.files   = ['lib/**/*.rb']
+  t.options = ['-m', 'markdown', '--no-private', '-r', 'Readme.md', '--title', 'Acts as Decimal documentation']
 end
+
+site = 'doc'
+source_branch = 'master'
+deploy_branch = 'gh-pages'
+
+desc "generate and deploy documentation website to github pages"
+multitask :pages do
+  puts ">>> Deploying #{deploy_branch} branch to Github Pages <<<"
+  require 'git'
+  repo = Git.open('.')
+  puts "\n>>> Checking out #{deploy_branch} branch <<<\n"
+  repo.branch("#{deploy_branch}").checkout
+  (Dir["*"] - [site]).each { |f| rm_rf(f) }
+  Dir["#{site}/*"].each {|f| mv(f, "./")}
+  rm_rf(site)
+  puts "\n>>> Moving generated site files <<<\n"
+  Dir["**/*"].each {|f| repo.add(f) }
+  repo.status.deleted.each {|f, s| repo.remove(f)}
+  puts "\n>>> Commiting: Site updated at #{Time.now.utc} <<<\n"
+  message = ENV["MESSAGE"] || "Site updated at #{Time.now.utc}"
+  repo.commit(message)
+  puts "\n>>> Pushing generated site to #{deploy_branch} branch <<<\n"
+  repo.push
+  puts "\n>>> Github Pages deploy complete <<<\n"
+  repo.branch("#{source_branch}").checkout
+end
+
+task :doc => [:docs]
 
 task :default => :spec
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "acts_as_decimal #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+task :test => [:spec]

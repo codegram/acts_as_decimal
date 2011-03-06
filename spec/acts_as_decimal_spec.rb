@@ -1,13 +1,6 @@
 require 'spec_helper'
 
-class Product < ActiveRecord::Base
-end
-create_table "products" do end
-define_model('Product', :name => :string, :price => :integer)
-
 describe Product do
-
-
   context "with a price of 10.30" do
 
     before(:all) do
