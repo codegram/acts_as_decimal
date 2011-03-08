@@ -47,8 +47,8 @@ describe Product do
         subject.human_price.should == "3.900.400,00"
       end
 
-      it "has a human_price(:thousand_delimiters => false) of 3900400.00" do
-        subject.human_price(:thousand_delimiters => false).should == "3900400.00"
+      it "has a human_price(:thousand_delimiters => false) of 3900400,00" do
+        subject.human_price(:thousand_delimiters => false).should == "3900400,00"
       end
 
     end
@@ -61,8 +61,22 @@ describe Product do
         subject.human_price.should == "20.000,00"
       end
 
-      it "has a human_price(:thousand_delimiters => false) of 20000.00" do
-        subject.human_price(:thousand_delimiters => false).should == "20000.00"
+      it "has a human_price(:thousand_delimiters => false) of 20000,00" do
+        subject.human_price(:thousand_delimiters => false).should == "20000,00"
+      end
+
+    end
+
+    context "with a 1234.56 price" do
+
+      subject { Product.new(:price => 1234.56) }
+
+      it "has a human_price of 1.234,56" do
+        subject.human_price.should == "1.234,56"
+      end
+
+      it "has a human_price(:thousand_delimiters => false) of 1234,56" do
+        subject.human_price(:thousand_delimiters => false).should == "1234,56"
       end
 
     end
@@ -75,23 +89,23 @@ describe Product do
         subject.human_price.should == "900,00"
       end
 
-      it "has a human_price(:thousand_delimiters => false) of 900.00" do
-        subject.human_price(:thousand_delimiters => false).should == "900.00"
+      it "has a human_price(:thousand_delimiters => false) of 900,00" do
+        subject.human_price(:thousand_delimiters => false).should == "900,00"
       end
 
     end
 
     context "with a string price of '900.00'" do
 
-        subject { Product.new(:price => "900.00") }
+      subject { Product.new(:price => "900.00") }
 
-        it "has a human_price of 900,00" do
-          subject.human_price.should == "900,00"
-        end
+      it "has a human_price of 900,00" do
+        subject.human_price.should == "900,00"
+      end
 
-        it "has a human_price(:thousand_delimiters => false) of 900.00" do
-          subject.human_price(:thousand_delimiters => false).should == "900.00"
-        end
+      it "has a human_price(:thousand_delimiters => false) of 900,00" do
+        subject.human_price(:thousand_delimiters => false).should == "900,00"
+      end
 
     end
 
@@ -103,8 +117,8 @@ describe Product do
         subject.human_price.should == "-900,00"
       end
 
-      it "has a human_price(:thousand_delimiters => false) of -900.00" do
-        subject.human_price(:thousand_delimiters => false).should == "-900.00"
+      it "has a human_price(:thousand_delimiters => false) of -900,00" do
+        subject.human_price(:thousand_delimiters => false).should == "-900,00"
       end
 
     end
@@ -117,15 +131,15 @@ describe Product do
         subject.human_price.should == "-900,00"
       end
 
-      it "has a human_price(:thousand_delimiters => false) of -900.00" do
-        subject.human_price(:thousand_delimiters => false).should == "-900.00"
+      it "has a human_price(:thousand_delimiters => false) of -900,00" do
+        subject.human_price(:thousand_delimiters => false).should == "-900,00"
       end
 
     end
   end
 
   context "with a price of 10.30452 and specifying :decimals => 5" do
-  
+
     before(:all) do
       Product.acts_as_decimal :price, :decimals => 5
     end
@@ -143,7 +157,7 @@ describe Product do
     it "stores 1030452 to the database" do
       subject.attributes["price"].should == 1030452
     end
-  
+
   end
 
 end
