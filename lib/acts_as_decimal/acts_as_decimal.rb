@@ -17,31 +17,28 @@ module ActsAsDecimal
     def acts_as_decimal(attr_name, options = {:decimals => 2})
       fields = [attr_name] unless attr_name.is_a? Array
       fields.each do |field|
-        class_eval <<-EOC
-          def human_#{field}(options = {:thousand_delimiters => true})
-            
-            return nil if #{field}.blank?
+        define_method "human_#{field}" do |options = {:thousand_delimiters => true}|
+          
+          return nil if self.send(field).blank?
+          integral, fractional = self.send(field).to_s.split('.')
+          fractional = fractional.ljust(2,'0')
 
-            a = #{field}.to_s.split('.')
-            b = a[1].ljust(2,'0')
-
-            if options[:thousand_delimiters] == false
-              return a[0] + "." + b
-            else
-              groups = a[0].reverse.scan(/\\d{3}/) 
-              rest = a[0].gsub(groups.join.reverse, '').reverse
-              groups << rest unless rest.empty?
-              if groups.last == '-'
-                groups.reject!{|x| x == '-'}
-                negative = true
-              end
-              humanized_string = negative ? "-" : ""
-              humanized_string += groups.join('.').reverse + "," + b
-              return humanized_string
+          if options[:thousand_delimiters] == false
+            return integral + "." + fractional
+          else
+            groups = integral.reverse.scan(/\d{3}/) 
+            rest = integral.gsub(groups.join.reverse, '').reverse
+            groups << rest unless rest.empty?
+            if groups.last == '-'
+              groups.reject!{|x| x == '-'}
+              negative = true
             end
-
+            humanized_string = negative ? "-" : ""
+            humanized_string += groups.join('.').reverse + "," + fractional
+            return humanized_string
           end
-        EOC
+
+        end
 
         define_method "#{field}" do
           (self[:"#{field}"].nil? ? nil : (self[:"#{field}"] / BigDecimal('10').power("#{options[:decimals]}".to_i).to_f))
