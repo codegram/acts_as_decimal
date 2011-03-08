@@ -19,6 +19,11 @@ describe Product do
       subject.price_raw.should == 1030
     end
 
+    it "sets a price_raw of 2030" do
+      subject.price_raw = 2030
+      subject.price.should == 20.30
+    end
+
     it "stores 1030 to the database" do
       subject.attributes["price"].should == 1030
     end
