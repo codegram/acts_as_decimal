@@ -8,6 +8,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'acts_as_decimal'
 require 'active_record'
 require 'rspec'
+ActiveSupport::Deprecation.silenced = true
 
 ActiveRecord::Base.establish_connection(
   :adapter => 'sqlite3',

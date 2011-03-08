@@ -1,6 +1,8 @@
 # encoding: utf-8
 module ActsAsDecimal
   require 'bigdecimal'
+  require 'action_view'
+  include ActionView::Helpers::NumberHelper
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -18,26 +20,9 @@ module ActsAsDecimal
       fields = [attr_name] unless attr_name.is_a? Array
       fields.each do |field|
         define_method "human_#{field}" do |options = {:thousand_delimiters => true}|
+          ActiveSupport::Deprecation.warn("acts_as_decimal: The human helper has been deprecated. Please use #{field}.number_with_precision, directly in your views. More info: http://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_with_precision")
           
-          return nil if self.send(field).blank?
-          integral, fractional = self.send(field).to_s.split('.')
-          fractional = fractional.ljust(2,'0')
-
-          if options[:thousand_delimiters] == false
-            return integral + "." + fractional
-          else
-            groups = integral.reverse.scan(/\d{3}/) 
-            rest = integral.gsub(groups.join.reverse, '').reverse
-            groups << rest unless rest.empty?
-            if groups.last == '-'
-              groups.reject!{|x| x == '-'}
-              negative = true
-            end
-            humanized_string = negative ? "-" : ""
-            humanized_string += groups.join('.').reverse + "," + fractional
-            return humanized_string
-          end
-
+          return number_with_precision(self.send(field), :delimiter => (options[:thousand_delimiters] ? '.' : ''), :separator => ',', :precision => 2)   
         end
 
         define_method "#{field}" do
