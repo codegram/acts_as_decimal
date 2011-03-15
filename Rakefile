@@ -2,7 +2,7 @@ require 'bundler'
 Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
-desc "Run superrtext specs"
+desc "Run acts_as_decimal specs"
 RSpec::Core::RakeTask.new
 
 require 'yard'
