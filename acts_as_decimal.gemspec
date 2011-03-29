@@ -12,12 +12,12 @@ Gem::Specification.new do |s|
   s.description = %q{Rails 3 gem to treat an attribute as a decimal (getting and setting floating-point values) but storing it as an integer in the database (useful for prices and other precision-needed attributes like money).}
   s.rubyforge_project = 'acts_as_decimal'
 
-  s.add_runtime_dependency 'activemodel', '>= 3.0.0'
-  s.add_runtime_dependency 'activesupport', '>= 3.0.0'
-  s.add_runtime_dependency 'actionpack', '>= 3.0.0'
+  s.add_runtime_dependency 'activemodel', '~>3.0'
+  s.add_runtime_dependency 'activesupport', '~>3.0'
+  s.add_runtime_dependency 'actionpack', '~>3.0'
 
-  s.add_development_dependency 'rspec', '>= 2.5.0'
-  s.add_development_dependency 'activerecord', '>= 3.0.0'
+  s.add_development_dependency 'rspec', '~> 2.5.0'
+  s.add_development_dependency 'activerecord', '~> 3.0'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rake'
 
