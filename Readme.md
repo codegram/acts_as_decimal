@@ -6,31 +6,31 @@ being stored as an integer in the database. Tested with Ruby 1.8.7, 1.9.2, Rubin
 Add it to your Gemfile:
 
 ````ruby
-    gem 'acts_as_decimal'
+  gem 'acts_as_decimal'
 ````
 
 And put this in your model, let's say a Product with a `#price` attribute:
 
 ````ruby
-    class Product < ActiveRecord::Base
-      acts_as_decimal :price                    # Defaults to 2 decimal floating point values, or...
-      acts_as_decimal :price, :decimals => 5    # ...as you wish!
-    end
+  class Product < ActiveRecord::Base
+    acts_as_decimal :price                    # Defaults to 2 decimal floating point values, or...
+    acts_as_decimal :price, :decimals => 5    # ...as you wish!
+  end
 ````
 
 Now you store and retrieve `#price` as a floating point:
   
 ````ruby
-    product = Product.new
-    product.price = 12.30   
-    product.price              # => 12.30
+  product = Product.new
+  product.price = 12.30   
+  product.price              # => 12.30
 ````
 
 But you still have access to the raw database integer value through `#price_raw`:
 
 ````ruby
-    product.price_raw          # => 1230
-    product.price_raw = 4309   # product.price == 43.09
+  product.price_raw          # => 1230
+  product.price_raw = 4309   # product.price == 43.09
 ````
 
 ## Note on Patches/Pull Requests
@@ -44,4 +44,5 @@ But you still have access to the raw database integer value through `#price_raw`
 ## Copyright
 
 Copyright (c) 2010 Codegram. See LICENSE for details.
+
 
