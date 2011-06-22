@@ -2,9 +2,9 @@ PATH
   remote: .
   specs:
     acts_as_decimal (1.1.0)
-      actionpack (~> 3.0.0)
-      activemodel (~> 3.0.0)
-      activesupport (~> 3.0.0)
+      actionpack (>= 3.0.0)
+      activemodel (>= 3.0.0)
+      activesupport (>= 3.0.0)
 
 GEM
   remote: http://rubygems.org/
@@ -38,8 +38,8 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.4.1)
-    rack (1.2.2)
-    rack-mount (0.6.13)
+    rack (1.2.3)
+    rack-mount (0.6.14)
       rack (>= 1.0.0)
     rack-test (0.5.7)
       rack (>= 1.0)
@@ -62,10 +62,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (~> 3.0.0)
+  activerecord (>= 3.0.0)
   acts_as_decimal!
   bluecloth
-  rspec (~> 2.5.0)
+  rspec (>= 2.5.0)
   simplecov
   sqlite3
   yard
